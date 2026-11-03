@@ -2,46 +2,34 @@
 
 Native Android and iOS automation using WebdriverIO, Appium, Mocha and BrowserStack real devices.
 
-The layout follows the supplied POB project: a framework folder contains application-specific tests, pages and locators, plus shared fixtures, support and utilities. The framework folder is named mobile because this project runs native Appium tests.
+The layout follows the supplied POB project: a framework folder contains platform-specific tests, pages and locators, plus shared fixtures, support and utilities. The framework folder is named mobile because this project runs native Appium tests.
 
 ```text
 mobile/
   e2e/
-    wikipedia/
-      tests/android/wikipedia.spec.js
-      pages/android/WikipediaPage.js
-      locators/android/WikipediaLocators.js
-    sampleApp/
-      tests/ios/sampleApp.spec.js
-      pages/ios/SampleAppPage.js
-      locators/ios/SampleAppLocators.js
+    android/
+      locator/AndroidLocators.js
+      page/AndroidPage.js
+      test/android.spec.js
+    ios/
+      locator/IosLocators.js
+      page/IosPage.js
+      test/ios.spec.js
   fixtures/
-    wikipedia/searches.json
-    sampleApp/text.json
+    android/searches.json
+    ios/text.json
   support/
     command.js
     customTest.js
   utils/
-    logger.js
-    reporting.js
-    selectDevice.js
-    uploadApp.js
-    validateConfig.js
-    check.js
 config/
-  environment.js
-  environment.test.js
-  browserstack.js
-  platforms.js
 apps/
-  android/wikipedia.apk
-  ios/BStackSampleApp.ipa
 wdio.conf.js
 ```
 
 Specs contain business steps and import page instances and data through mobile/support/customTest.js. This shared entry point registers Mocha hooks, prepares Wikipedia before each Android test, and adds test IDs to Allure. Pages implement actions and assertions using mobile/support/command.js; locators contain native selectors. Fixtures contain application data. Utilities handle logging, screenshots, reporting, app uploads and device selection. Root config files own environment validation and cloud capabilities.
 
-The POB archive uses Playwright fixtures and browser actions. Their mobile equivalents use Mocha hooks and WebdriverIO native actions. Banking page objects and browser selectors from the archive are reference material; the implemented mobile flows use the supplied APK and IPA. AIO integration, AIO result files and pipeline execution are excluded.
+The POB archive uses Playwright fixtures and browser actions. Their mobile equivalents use Mocha hooks and WebdriverIO native actions. Banking page objects and browser selectors from the archive are reference material; the implemented mobile flows use the supplied APK and IPA. AIO integration and AIO result files are excluded.
 
 ## Setup
 
@@ -68,7 +56,7 @@ npm run test:ios
 
 Each setup command selects a supported device and uploads its local app, saving device settings and the app reference in the corresponding platform environment file. Device selection and upload can also run separately with npm run device:android, npm run device:ios, npm run upload:android and npm run upload:ios. Setup and tests contact BrowserStack; tests run on real cloud devices and use account capacity. Local Appium drivers, Android SDK and Xcode are unnecessary for cloud execution.
 
-npm run test:both executes Android followed by iOS and stops if Android fails. The default npm test runs Android. WDIO discovers tests under mobile/e2e/*/tests/<platform>.
+npm run test:both executes Android followed by iOS and stops if Android fails. The default npm test runs Android. WDIO discovers tests under mobile/e2e/<platform>/test.
 
 ## Implemented flows
 
@@ -88,8 +76,16 @@ Allure HTML generation requires Java on PATH. Results accumulate between runs. A
 
 ## Adding an application
 
-Create matching mobile/e2e/<application>/tests/<platform>, pages/<platform> and locators/<platform> folders. Put data in mobile/fixtures/<application>, register page instances and setup hooks in mobile/support/customTest.js, and import the shared entry point from specs. Update environment and capabilities when targeting a different application. Keep credentials out of fixtures and source files.
+Create matching mobile/e2e/<platform>/test, page and locator folders. Put data in mobile/fixtures/<application>, register page instances and setup hooks in mobile/support/customTest.js, and import the shared entry point from specs. Update environment and capabilities when targeting a different application. Keep credentials out of fixtures and source files.
 
 ## POB review
 
 POB.zip groups tests, pages and locators under playwright/e2e/pob, with fixtures, support and utils under playwright. This project mirrors those relationships under mobile and preserves Android/iOS separation. Root WDIO configuration replaces Playwright configuration. POB's aioCycleManager.js, cycle/result fixtures, GitLab configuration, banking data and generated browser reports are not imported. The original ZIP is preserved.
+
+## Android configuration and GitHub Actions
+
+Edit `config/android.defaults.json` to change shared Android device, app and execution settings. Both local runs and GitHub Actions use this file. `.env.android` only needs `BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY` and `BROWSERSTACK_APP_ID`; it is ignored by Git. Optional local settings override the defaults. Process environment variables take priority over both.
+
+The Android workflow checks out `main`, runs on pushes to `main`, and supports manual runs. In GitHub Settings > Secrets and variables > Actions, add repository secrets named `BROWSERSTACK_USERNAME`, `BROWSERSTACK_ACCESS_KEY` and `BROWSERSTACK_APP_ID` (the uploaded app's `bs://` reference). Commit the workflow, shared defaults and package lock to `main`. Open Actions > Android BrowserStack Tests to see runs and download reports. The workflow sets a unique build name for each run.
+
+The pipeline reuses the uploaded app; update the app secret after uploading a replacement APK. Local device selection writes overrides to `.env.android`; copy the chosen device and OS into the shared defaults when they should also apply in CI.

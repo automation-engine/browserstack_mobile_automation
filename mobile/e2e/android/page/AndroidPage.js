@@ -1,8 +1,8 @@
 const { browser, expect } = require('@wdio/globals');
-const commands = require('../../../../support/command');
-const createLocators = require('../../locators/android/WikipediaLocators');
+const commands = require('../../../support/command');
+const createLocators = require('../locator/AndroidLocators');
 
-class WikipediaPage {
+class AndroidPage {
   constructor(driver = browser) {
     this.driver = driver;
     this.locators = createLocators(process.env.APP_ID);
@@ -32,4 +32,4 @@ class WikipediaPage {
     });
   }
 }
-module.exports = { WikipediaPage };
+module.exports = { AndroidPage };

@@ -1,4 +1,4 @@
-const { describe, test, wikipedia, wikipediaData } = require('../../../../support/customTest');
+const { describe, test, wikipedia, wikipediaData } = require('../../../support/customTest');
 
 describe('Wikipedia native mobile smoke', () => {
   test('[WIKI-001] launches the Wikipedia application', async () => {

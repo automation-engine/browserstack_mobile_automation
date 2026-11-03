@@ -1,0 +1,12 @@
+{
+  "EXECUTION_ENV": "browserstack",
+  "DEVICE_NAME": "Google Pixel 8",
+  "OS_VERSION": "14.0",
+  "APP_ID": "org.wikipedia.alpha",
+  "APP_PATH": "apps/android/wikipedia.apk",
+  "PROJECT_NAME": "Wikipedia Mobile POC",
+  "BUILD_NAME": "Wikipedia Android POC",
+  "APPIUM_VERSION": "3.5.2",
+  "WAIT_TIMEOUT": "20000",
+  "MAX_INSTANCES": "1"
+}

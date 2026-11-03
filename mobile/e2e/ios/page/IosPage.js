@@ -1,8 +1,8 @@
 const { browser, expect } = require('@wdio/globals');
-const commands = require('../../../../support/command');
-const locators = require('../../locators/ios/SampleAppLocators');
+const commands = require('../../../support/command');
+const locators = require('../locator/IosLocators');
 
-class SampleAppPage {
+class IosPage {
   constructor(driver = browser) {
     this.driver = driver;
   }
@@ -19,4 +19,4 @@ class SampleAppPage {
     });
   }
 }
-module.exports = { SampleAppPage };
+module.exports = { IosPage };

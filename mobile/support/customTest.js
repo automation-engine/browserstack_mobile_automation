@@ -1,12 +1,12 @@
 const allure = require('@wdio/allure-reporter').default;
-const { WikipediaPage } = require('../e2e/wikipedia/pages/android/WikipediaPage');
+const { AndroidPage } = require('../e2e/android/page/AndroidPage');
 const { prepareWikipedia } = require('./command');
-const { SampleAppPage } = require('../e2e/sampleApp/pages/ios/SampleAppPage');
-const wikipediaData = require('../fixtures/wikipedia/searches.json');
-const sampleAppData = require('../fixtures/sampleApp/text.json');
+const { IosPage } = require('../e2e/ios/page/IosPage');
+const wikipediaData = require('../fixtures/android/searches.json');
+const sampleAppData = require('../fixtures/ios/text.json');
 
-const wikipedia = new WikipediaPage();
-const sampleApp = new SampleAppPage();
+const wikipedia = new AndroidPage();
+const sampleApp = new IosPage();
 
 // Mocha hooks and reporting metadata stay out of the spec files.
 function describe(title, defineTests) {

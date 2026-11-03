@@ -5,7 +5,7 @@ const { captureFailure, reportSession } = require('./mobile/utils/reporting');
 const env = loadEnvironment();
 exports.config = {
   runner: 'local',
-  specs: ['./mobile/e2e/*/tests/' + env.platform + '/**/*.spec.js'],
+  specs: ['./mobile/e2e/' + env.platform + '/test' + '/**/*.spec.js'],
   maxInstances: Number(env.MAX_INSTANCES || 1),
   user: env.BROWSERSTACK_USERNAME,
   key: env.BROWSERSTACK_ACCESS_KEY,

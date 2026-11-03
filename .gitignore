@@ -1,12 +1,30 @@
+# Dependencies and local npm cache
 node_modules/
+.npm/
+
+# Local environment files (keep the setup template)
 .env
 .env.*
 !.env.example
-apps/**/*.apk
-apps/**/*.ipa
-reports/
-logs/
-*.log
-.DS_Store
 
-POB.zip
+# Local mobile app binaries (keep apps/**/.gitkeep)
+*.apk
+*.aab
+*.ipa
+
+# Generated reports, screenshots and execution logs
+/reports/
+/logs/
+/allure-results/
+/allure-report/
+/coverage/
+*.log
+
+# Local editor settings and operating system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo

@@ -20,8 +20,13 @@ function loadEnvironment(options = {}) {
   const platform = process.env.PLATFORM || 'android';
   if (!['android', 'ios'].includes(platform)) throw new Error('PLATFORM must be android or ios');
   require('dotenv').config({ path: path.join(root, '.env.' + platform), override: false, quiet: true });
-  validateEnvironment(process.env, platform, options);
-  return { ...process.env, platform, root };
+  const defaults = platform === 'android' ? require('./android.defaults.json') : {};
+  for (const [key, value] of Object.entries(defaults)) {
+    if (process.env[key] === undefined) process.env[key] = value;
+  }
+  const env = { ...process.env };
+  validateEnvironment(env, platform, options);
+  return { ...env, platform, root };
 }
 module.exports = { loadEnvironment, validateEnvironment };
 
