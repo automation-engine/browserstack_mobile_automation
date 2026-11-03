@@ -1,0 +1,14 @@
+{
+  "searches": [
+    {
+      "id": "WIKI-003",
+      "term": "Appium",
+      "expectedTitle": "Appium"
+    },
+    {
+      "id": "WIKI-004",
+      "term": "JavaScript",
+      "expectedTitle": "JavaScript"
+    }
+  ]
+}

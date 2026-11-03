@@ -1,0 +1,12 @@
+node_modules/
+.env
+.env.*
+!.env.example
+apps/**/*.apk
+apps/**/*.ipa
+reports/
+logs/
+*.log
+.DS_Store
+
+POB.zip
